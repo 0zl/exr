@@ -66,7 +66,7 @@ class EXL():
         time_begin_b = time.time()
         output_b = self.generator.generate_simple(prompt, settings, max_new_tokens, seed=random.randint(1, 1e7))
         time_end_b = time.time()
-        time_total_b = time_end_a - time_begin_a
+        time_total_b = time_end_b - time_begin_b
         
         if print_console:
             print(f'exr_warmup 1: {output}')
