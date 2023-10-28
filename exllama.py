@@ -44,6 +44,8 @@ class EXL():
         self.exr_warmup(True)
     
     def exr_warmup(self, print_console):
+        print('exr warmup...')
+        
         settings = ExLlamaV2Sampler.Settings()
         settings.temperature = 0.85
         settings.top_k = 50
