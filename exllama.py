@@ -69,10 +69,10 @@ class EXL():
         time_total_b = time_end_b - time_begin_b
         
         if print_console:
-            print(f'exr_warmup 1: {output}')
+            print(f'exr_warmup 1: {output_a}')
             print('')
             print(f'Response generated in {time_total_a:.2f} seconds, {max_new_tokens} tokens, {max_new_tokens / time_total_a:.2f} tokens/second')
             print('-------')
-            print(f'exr_warmup 2: {output}')
+            print(f'exr_warmup 2: {output_b}')
             print('')
             print(f'Response generated in {time_total_b:.2f} seconds, {max_new_tokens} tokens, {max_new_tokens / time_total_b:.2f} tokens/second')
