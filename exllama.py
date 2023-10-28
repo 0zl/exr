@@ -27,12 +27,12 @@ class EXL():
 
         self.config = ExLlamaV2Config()
         self.config.model_dir = model_path
-        self.config.max_seq_len = gs.max_total_token
-        self.config.max_input_len = gs.max_total_token
+        #self.config.max_seq_len = gs.max_total_token
+        #self.config.max_input_len = gs.max_total_token
         self.config.prepare()
 
         self.model = ExLlamaV2(self.config)
-        self.cache = ExLlamaV2Cache(self.model)
+        self.cache = ExLlamaV2Cache(self.model, lazy=True)
         self.model.load_autosplit(self.cache)
 
         self.tokenizer = ExLlamaV2Tokenizer(self.config)
