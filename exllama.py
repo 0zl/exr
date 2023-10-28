@@ -52,6 +52,8 @@ class EXL():
         self.streaming = ExLlamaV2StreamingGenerator(self.model, self.cache, self.tokenizer)
 
         self.generator.warmup()
+        self.streaming.warmup()
+        
         self.exr_warmup(gs.print_warmup)
     
     def exr_warmup(self, print_console):
@@ -87,3 +89,30 @@ class EXL():
             # print(f'exr_warmup 2: {output_b}')
             # print('')
             # print(f'Response generated in {time_total_b:.2f} seconds, {max_new_tokens} tokens, {max_new_tokens / time_total_b:.2f} tokens/second')
+
+    def encode(self, text: str):
+        return self.tokenizer.encode(text)
+
+    def prepare_stream(
+            self, 
+            prompt: str, 
+            stop_condition: List[str], 
+            temperature: float, 
+            top_k: int, 
+            top_p: float, 
+            typical: int, 
+            repitition_penalty: float,
+            max_response_tokens: int = 250
+            ) -> tuple[torch.Tensor, ExLlamaV2Sampler.Settings, int]:
+        settings = ExLlamaV2Sampler.Settings()
+        settings.temperature = temperature
+        settings.top_k = top_k
+        settings.top_p = top_p
+        settings.typical = typical
+        settings.token_repetition_penalty = repitition_penalty
+
+        # stop condition
+        self.streaming.set_stop_conditions(stop_condition)
+        input_context = self.encode(prompt)
+
+        return input_context, settings, max_response_tokens
