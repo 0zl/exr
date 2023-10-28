@@ -1,10 +1,13 @@
 import time, random
+import torch
 from huggingface_hub import snapshot_download
+from typing import List
 
 from exllamav2 import (
     ExLlamaV2,
     ExLlamaV2Config,
     ExLlamaV2Cache,
+    ExLlamaV2Cache_8bit,
     ExLlamaV2Tokenizer,
 )
 
@@ -17,7 +20,7 @@ from exllamav2.generator import (
 class EXL():
     config: ExLlamaV2Config
     model: ExLlamaV2
-    cache: ExLlamaV2Cache
+    cache: ExLlamaV2Cache | ExLlamaV2Cache_8bit
     tokenizer: ExLlamaV2Tokenizer
     generator: ExLlamaV2BaseGenerator
     streaming: ExLlamaV2StreamingGenerator
@@ -33,15 +36,23 @@ class EXL():
         self.config.prepare()
 
         self.model = ExLlamaV2(self.config)
-        self.cache = ExLlamaV2Cache(self.model, lazy=True)
-        self.model.load_autosplit(self.cache)
+
+        if gs.cache_8bit:
+            self.cache = ExLlamaV2Cache_8bit(self.model, lazy=not self.model.loaded)
+            print('using 8bit cache')
+        else:
+            self.cache = ExLlamaV2Cache(self.model, lazy=not self.model.loaded)
+
+        if not self.model.loaded:
+            print('loading model...')
+            self.model.load_autosplit(self.cache)
 
         self.tokenizer = ExLlamaV2Tokenizer(self.config)
         self.generator = ExLlamaV2BaseGenerator(self.model, self.cache, self.tokenizer)
         self.streaming = ExLlamaV2StreamingGenerator(self.model, self.cache, self.tokenizer)
 
         self.generator.warmup()
-        self.exr_warmup(True)
+        self.exr_warmup(gs.print_warmup)
     
     def exr_warmup(self, print_console):
         print('exr warmup...')
@@ -58,21 +69,21 @@ class EXL():
 
         print('exr_warmup 1 ...')
         time_begin_a = time.time()
-        output_a = self.generator.generate_simple(prompt, settings, max_new_tokens, seed=random.randint(1, 1e7))
+        output_a = self.generator.generate_simple(prompt, settings, max_new_tokens, seed=random.randint(1, int(1e7)))
         time_end_a = time.time()
         time_total_a = time_end_a - time_begin_a
 
-        print('exr_warmup 2 ...')
-        time_begin_b = time.time()
-        output_b = self.generator.generate_simple(prompt, settings, max_new_tokens, seed=random.randint(1, 1e7))
-        time_end_b = time.time()
-        time_total_b = time_end_b - time_begin_b
+        # print('exr_warmup 2 ...')
+        # time_begin_b = time.time()
+        # output_b = self.generator.generate_simple(prompt, settings, max_new_tokens, seed=random.randint(1, int(1e7)))
+        # time_end_b = time.time()
+        # time_total_b = time_end_b - time_begin_b
         
         if print_console:
             print(f'exr_warmup 1: {output_a}')
             print('')
             print(f'Response generated in {time_total_a:.2f} seconds, {max_new_tokens} tokens, {max_new_tokens / time_total_a:.2f} tokens/second')
             print('-------')
-            print(f'exr_warmup 2: {output_b}')
-            print('')
-            print(f'Response generated in {time_total_b:.2f} seconds, {max_new_tokens} tokens, {max_new_tokens / time_total_b:.2f} tokens/second')
+            # print(f'exr_warmup 2: {output_b}')
+            # print('')
+            # print(f'Response generated in {time_total_b:.2f} seconds, {max_new_tokens} tokens, {max_new_tokens / time_total_b:.2f} tokens/second')
