@@ -57,7 +57,7 @@ class EXL():
         max_new_tokens = 150
 
         time_begin = time.time()
-        output = self.generator.generate_simple(prompt, settings, max_new_tokens, seed=random.randint(1, 1e7)
+        output = self.generator.generate_simple(prompt, settings, max_new_tokens, seed=random.randint(1, 1e7))
         time_end = time.time()
         
         time_total = time_end - time_begin
