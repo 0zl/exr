@@ -23,6 +23,7 @@ class EXL():
 
     def __init__(self, gs):
         model_path = snapshot_download(gs.model, local_dir='./model')
+        print(f'model path: {model_path}')
 
         self.config = ExLlamaV2Config()
         self.config.model_dir = model_path
