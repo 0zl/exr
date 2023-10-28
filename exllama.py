@@ -51,7 +51,7 @@ class EXL():
         settings.top_k = 50
         settings.top_p = 0.8
         settings.token_repetition_penalty = 1.15
-        settings.disallow_tokens(tokenizer, [tokenizer.eos_token_id])
+        settings.disallow_tokens(self.tokenizer, [self.tokenizer.eos_token_id])
 
         prompt = "Our story begins in the Scottish town of Auchtermuchty, where once"
         max_new_tokens = 150
