@@ -56,10 +56,23 @@ class EXL():
         prompt = "Our story begins in the Scottish town of Auchtermuchty, where once"
         max_new_tokens = 150
 
-        time_begin = time.time()
-        output = self.generator.generate_simple(prompt, settings, max_new_tokens, seed=random.randint(1, 1e7))
-        time_end = time.time()
+        print('exr_warmup 1 ...')
+        time_begin_a = time.time()
+        output_a = self.generator.generate_simple(prompt, settings, max_new_tokens, seed=random.randint(1, 1e7))
+        time_end_a = time.time()
+        time_total_a = time_end_a - time_begin_a
+
+        print('exr_warmup 2 ...')
+        time_begin_b = time.time()
+        output_b = self.generator.generate_simple(prompt, settings, max_new_tokens, seed=random.randint(1, 1e7))
+        time_end_b = time.time()
+        time_total_b = time_end_a - time_begin_a
         
-        time_total = time_end - time_begin
-        print(f'exr_warmup: {output}')
-        print(f'Response generated in {time_total:.2f} seconds, {max_new_tokens} tokens, {max_new_tokens / time_total:.2f} tokens/second')
+        if print_console:
+            print(f'exr_warmup 1: {output}')
+            print('')
+            print(f'Response generated in {time_total_a:.2f} seconds, {max_new_tokens} tokens, {max_new_tokens / time_total_a:.2f} tokens/second')
+            print('-------')
+            print(f'exr_warmup 2: {output}')
+            print('')
+            print(f'Response generated in {time_total_b:.2f} seconds, {max_new_tokens} tokens, {max_new_tokens / time_total_b:.2f} tokens/second')
