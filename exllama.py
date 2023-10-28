@@ -32,7 +32,7 @@ class EXL():
         self.config.prepare()
 
         self.model = ExLlamaV2(self.config)
-        self.cache = ExLlamaV2Cache(self.model, lazy=True)
+        self.cache = ExLlamaV2Cache(self.model)
         self.model.load_autosplit(self.cache)
 
         self.tokenizer = ExLlamaV2Tokenizer(self.config)
