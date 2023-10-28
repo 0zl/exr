@@ -53,7 +53,7 @@ class EXL():
         settings.token_repetition_penalty = 1.15
         settings.disallow_tokens(self.tokenizer, [self.tokenizer.eos_token_id])
 
-        prompt = "Our story begins in the Scottish town of Auchtermuchty, where once"
+        prompt = "USER: Hey, what do you think about relationship between Human and Robot, lol.\nASSISTANT:"
         max_new_tokens = 150
 
         print('exr_warmup 1 ...')
