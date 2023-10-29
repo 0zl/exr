@@ -128,6 +128,7 @@ class RDSClient:
             await self.send_data(str(e), False, request_id, chan_name)
             return
         
+        print(task_params)
         if task_name in ['streaming']:
             await self.generate(task_name, task_params, chan_name, request_id)
         else:
