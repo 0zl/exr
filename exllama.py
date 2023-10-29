@@ -4,6 +4,8 @@ import torch
 from huggingface_hub import snapshot_download
 from typing import List
 
+import shared
+
 from exllamav2 import (
     ExLlamaV2,
     ExLlamaV2Config,
@@ -60,6 +62,7 @@ class EXL():
         self.streaming.warmup()
 
         self.exr_warmup(gs.print_warmup)
+        shared.init_complete = True
 
     def exr_warmup(self, print_console):
         print('exr warmup...')
