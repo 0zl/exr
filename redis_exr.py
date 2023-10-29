@@ -65,14 +65,14 @@ class RDSClient:
                 shared.exr_busy = True
 
                 tensor_input, gen_settings, max_response_tokens = self.exl.prepare_stream(
-                    params.prompt,
-                    params.stop_condition + [self.exl.tokenizer.eos_token_id],
-                    params.temperature,
-                    params.top_k,
-                    params.top_p,
-                    params.typical,
-                    params.repitition_penalty,
-                    params.max_response_tokens
+                    params['prompt'],
+                    params['stop_condition'] + [self.exl.tokenizer.eos_token_id],
+                    params['temperature'],
+                    params['top_k'],
+                    params['top_p'],
+                    params['typical'],
+                    params['repitition_penalty'],
+                    params['max_response_tokens']
                 )
 
                 response_tokens = 0
