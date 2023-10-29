@@ -86,14 +86,14 @@ class RDSClient:
                     await self.send_data({
                         'output': chunk,
                         'eos': False,
-                        'stream_id': params.stream_id
+                        'stream_id': params['stream_id']
                     }, True)
 
                     if eos or response_tokens == max_response_tokens:
                         await self.send_data({
                             'output': '',
                             'eos': True,
-                            'stream_id': params.stream_id
+                            'stream_id': params['stream_id']
                         }, True)
                         break
                 t_stream_end = time.time()
