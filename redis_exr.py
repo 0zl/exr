@@ -83,6 +83,7 @@ class RDSClient:
                     chunk, eos, _ = self.exl.streaming.stream()
                     response_tokens += 1
 
+                    print(chunk, end='')
                     await self.send_data({
                         'output': chunk,
                         'eos': False,
