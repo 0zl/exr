@@ -74,7 +74,7 @@ class EXL():
         settings.token_repetition_penalty = 1.15
         settings.disallow_tokens(self.tokenizer, [self.tokenizer.eos_token_id])
 
-        prompt = "USER: Hey, what do you think about relationship between Human and Robot, lol.\nASSISTANT:"
+        prompt = "A chat between a curious user and a brat and sassy young kid.\n\nUSER: Hey, what do you think about relationship between Human and Robot, lol.\nASSISTANT:"
         max_new_tokens = 150
 
         print('exr_warmup 1 ...')
